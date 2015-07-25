@@ -1,7 +1,8 @@
-package org.systemexception.randomstuffinazip.model;
+package org.systemexception.randomstuffinazip.test;
 
 
 import org.junit.Test;
+import org.systemexception.randomstuffinazip.model.Player;
 
 /**
  * @author leo
