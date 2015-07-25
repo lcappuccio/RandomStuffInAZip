@@ -34,4 +34,10 @@ public class XmlValidatorTest {
 		sut = new XmlValidator(xmlMatchString, "MatchPoints.xsd");
 		sut.validateXml();
 	}
+
+	@Test(expected = SAXException.class)
+	public void throw_exception_on_invalid_xml() throws IOException, SAXException {
+		sut = new XmlValidator("<abc></abc>", "MatchPoints.xsd");
+		sut.validateXml();
+	}
 }
