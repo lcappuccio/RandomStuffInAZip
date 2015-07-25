@@ -24,6 +24,12 @@ public class XmlValidator {
 		this.xsdPath = xsdPath;
 	}
 
+	/**
+	 * Validates the xml content against an xsd
+	 *
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public void validateXml() throws SAXException, IOException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = factory.newSchema(loadXsd());

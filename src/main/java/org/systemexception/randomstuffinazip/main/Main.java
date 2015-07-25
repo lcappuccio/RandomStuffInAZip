@@ -1,7 +1,7 @@
 package org.systemexception.randomstuffinazip.main;
 
 import org.systemexception.randomstuffinazip.model.Player;
-import org.systemexception.randomstuffinazip.pojo.XmlMatchContainer;
+import org.systemexception.randomstuffinazip.model.Match;
 
 /**
  * @author leo
@@ -13,11 +13,11 @@ public class Main {
 		Player player1 = new Player("Test1", 100);
 		Player player2 = new Player("Test2", 200);
 
-		XmlMatchContainer xmlMatchContainer = new XmlMatchContainer();
+		Match match = new Match();
 
-		xmlMatchContainer.addPlayer(player1);
-		xmlMatchContainer.addPlayer(player2);
+		match.addPlayer(player1);
+		match.addPlayer(player2);
 
-		System.out.println(xmlMatchContainer.getPlayerPoints());
+		System.out.println(match.matchToXml());
 	}
 }

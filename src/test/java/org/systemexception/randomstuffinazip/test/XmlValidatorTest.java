@@ -3,7 +3,7 @@ package org.systemexception.randomstuffinazip.test;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.randomstuffinazip.model.Player;
-import org.systemexception.randomstuffinazip.pojo.XmlMatchContainer;
+import org.systemexception.randomstuffinazip.model.Match;
 import org.systemexception.randomstuffinazip.pojo.XmlValidator;
 import org.xml.sax.SAXException;
 
@@ -17,16 +17,16 @@ public class XmlValidatorTest {
 
 	private XmlValidator sut;
 	private static Player player1, player2;
-	private static final XmlMatchContainer xmlMatchContainer = new XmlMatchContainer();
+	private static final Match MATCH = new Match();
 	private static String xmlMatchString;
 
 	@BeforeClass
 	public static void setUp() {
 		player1 = new Player("John", 100);
 		player2 = new Player("Appleseed", 200);
-		xmlMatchContainer.addPlayer(player1);
-		xmlMatchContainer.addPlayer(player2);
-		xmlMatchString = xmlMatchContainer.getPlayerPoints();
+		MATCH.addPlayer(player1);
+		MATCH.addPlayer(player2);
+		xmlMatchString = MATCH.matchToXml();
 	}
 
 	@Test
