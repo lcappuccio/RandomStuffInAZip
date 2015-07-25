@@ -27,6 +27,11 @@ public class Match {
 		logger.info("Generated match:" + matchId);
 	}
 
+	/**
+	 * Adds a player to the match
+	 *
+	 * @param player
+	 */
 	public void addPlayer(final Player player) {
 		ArrayList<String> playerScore = new ArrayList<>();
 		playerScore.add(player.getName());
@@ -35,6 +40,11 @@ public class Match {
 		logger.info("Added player " + player.getName() + " to match " + matchId);
 	}
 
+	/**
+	 * Generates the match xml and validates against an xsd
+	 *
+	 * @return
+	 */
 	public String matchToXml() {
 		String xml = xmlHeader.replace("$MATCH_ID", String.valueOf(getRandomMatchId()));
 		for (ArrayList<String> playerScore : playerPoints) {
@@ -44,7 +54,7 @@ public class Match {
 			xml = xml.concat("</playerscore>");
 		}
 		xml = xml.concat(xmlFooter);
-		XmlValidator xmlValidator = new XmlValidator(xml,"MatchPoints.xsd");
+		XmlValidator xmlValidator = new XmlValidator(xml, "MatchPoints.xsd");
 		try {
 			xmlValidator.validateXml();
 		} catch (SAXException | IOException e) {

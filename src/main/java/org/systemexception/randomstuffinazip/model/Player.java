@@ -26,6 +26,11 @@ public class Player {
 		logger.info("New player: " + name + ", points: " + points);
 	}
 
+	/**
+	 * Handles any exception
+	 *
+	 * @param exceptionMessage
+	 */
 	private void exceptionHandler(String exceptionMessage) {
 		IllegalArgumentException illegalArgumentException = new IllegalArgumentException(exceptionMessage);
 		logger.error(illegalArgumentException.getMessage(), illegalArgumentException);
