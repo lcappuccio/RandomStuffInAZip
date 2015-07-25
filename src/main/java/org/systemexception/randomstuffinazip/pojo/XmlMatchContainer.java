@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author leo
  * @date 24/07/15 22:18
  */
-public class XmlGameContainer {
+public class XmlMatchContainer {
 
 	private final String xmlHeader = "<game>", xmlFooter = "</game>";
 	private final String player = "<Player>$PLAYER</player>";
