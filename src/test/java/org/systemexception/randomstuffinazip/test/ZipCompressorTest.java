@@ -7,6 +7,11 @@ import org.systemexception.randomstuffinazip.model.Player;
 import org.systemexception.randomstuffinazip.pojo.XmlValidator;
 import org.systemexception.randomstuffinazip.pojo.ZipCompressor;
 
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author leo
  * @date 25/07/15 23:49
@@ -31,5 +36,12 @@ public class ZipCompressorTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void refuse_null_filename() {
 		sut = new ZipCompressor("abc",null);
+	}
+
+	@Test
+	public void zip_contents() throws IOException {
+		sut = new ZipCompressor(MATCH.matchToXml(), String.valueOf(MATCH.getMatchId()));
+		sut.zipContents();
+		assertTrue(new File("target" + File.separator + String.valueOf(MATCH.getMatchId()) + ".zip").exists());
 	}
 }

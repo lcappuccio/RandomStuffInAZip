@@ -4,6 +4,10 @@ import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 import org.systemexception.randomstuffinazip.exception.ErrorCodes;
 
+import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 /**
  * @author leo
  * @date 25/07/15 23:46
@@ -20,7 +24,30 @@ public class ZipCompressor {
 			logger.error(illegalArgumentException.getMessage(), illegalArgumentException);
 			throw illegalArgumentException;
 		}
-		this.fileName = fileName;
+		this.fileName = fileName + ".zip";
 		this.fileContents = fileContents;
+	}
+
+	/**
+	 * Zips the contents into the file
+	 *
+	 * @throws IOException
+	 */
+	public void zipContents() throws IOException {
+		FileOutputStream fileOutputStream = new FileOutputStream("target" + File.separator + fileName);
+		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+		ZipEntry zipEntry = new ZipEntry(fileName + ".xml");
+		zipOutputStream.putNextEntry(zipEntry);
+		InputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
+		byte[] data = new byte[1024];
+		int byteCount;
+		while ((byteCount = (inputStream.read(data))) > 0) {
+			zipOutputStream.write(data, 0, byteCount);
+		}
+		zipOutputStream.flush();
+		zipOutputStream.closeEntry();
+		inputStream.close();
+		zipOutputStream.close();
+		logger.info("Saved file " + fileName);
 	}
 }
