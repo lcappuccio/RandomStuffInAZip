@@ -23,6 +23,7 @@ public class Player {
 		}
 		this.name = name;
 		this.points = points;
+		logger.info("New player: " + name + ", points: " + points);
 	}
 
 	private void exceptionHandler(String exceptionMessage) {
