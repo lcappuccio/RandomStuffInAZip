@@ -14,7 +14,12 @@ public class PlayerTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void will_not_accept_null_names() {
-		sut = new Player(null,10);
+		sut = new Player(null, 10);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void will_not_accept_negative_points() {
+		sut = new Player("John", -10);
 	}
 
 }
