@@ -1,6 +1,7 @@
 package org.systemexception.randomstuffinazip.test;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.systemexception.randomstuffinazip.model.Match;
 import org.systemexception.randomstuffinazip.model.Player;
 import org.systemexception.randomstuffinazip.pojo.XmlValidator;
@@ -25,5 +26,10 @@ public class ZipCompressorTest {
 		MATCH.addPlayer(player1);
 		MATCH.addPlayer(player2);
 		xmlMatchString = MATCH.matchToXml();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void refuse_null_filename() {
+		sut = new ZipCompressor("abc",null);
 	}
 }
