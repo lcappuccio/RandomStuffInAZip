@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.randomstuffinazip.model.Player;
 import org.systemexception.randomstuffinazip.model.Match;
-import org.systemexception.randomstuffinazip.pojo.XmlValidator;
+import org.systemexception.randomstuffinazip.pojo.XmlMatchGenerator;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -13,9 +13,9 @@ import java.io.IOException;
  * @author leo
  * @date 24/07/15 22:10
  */
-public class XmlValidatorTest {
+public class XmlMatchGeneratorTest {
 
-	private XmlValidator sut;
+	private XmlMatchGenerator sut;
 	private static Player player1, player2;
 	private static final Match MATCH = new Match();
 	private static String xmlMatchString;
@@ -31,13 +31,13 @@ public class XmlValidatorTest {
 
 	@Test
 	public void validate_correctly() throws IOException, SAXException {
-		sut = new XmlValidator(xmlMatchString, "MatchPoints.xsd");
+		sut = new XmlMatchGenerator(xmlMatchString, "MatchPoints.xsd");
 		sut.validateXml();
 	}
 
 	@Test(expected = SAXException.class)
 	public void throw_exception_on_invalid_xml() throws IOException, SAXException {
-		sut = new XmlValidator("<abc></abc>", "MatchPoints.xsd");
+		sut = new XmlMatchGenerator("<abc></abc>", "MatchPoints.xsd");
 		sut.validateXml();
 	}
 }

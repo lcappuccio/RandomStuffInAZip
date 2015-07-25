@@ -15,11 +15,11 @@ import java.io.StringReader;
  * @author leo
  * @date 24/07/15 22:06
  */
-public class XmlValidator {
+public class XmlMatchGenerator {
 
 	private final String xsdPath, xmlContent;
 
-	public XmlValidator(String xmlContent, String xsdPath) {
+	public XmlMatchGenerator(String xmlContent, String xsdPath) {
 		this.xmlContent = xmlContent;
 		this.xsdPath = xsdPath;
 	}
