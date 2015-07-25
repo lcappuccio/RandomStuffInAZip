@@ -18,6 +18,6 @@ public class Main {
 		xmlGameContainer.addPlayerPoints(player1);
 		xmlGameContainer.addPlayerPoints(player2);
 
-		System.out.printf(xmlGameContainer.getPlayerPoints());
+		System.out.println(xmlGameContainer.getPlayerPoints());
 	}
 }
