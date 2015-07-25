@@ -4,6 +4,13 @@
     <xs:element name="match">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="match_id">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                            <xs:minInclusive value="0"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
                 <xs:element name="playerscore" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
