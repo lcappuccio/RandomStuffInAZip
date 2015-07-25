@@ -2,7 +2,10 @@ package org.systemexception.randomstuffinazip.model;
 
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
+import org.systemexception.randomstuffinazip.pojo.XmlValidator;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,6 +44,12 @@ public class Match {
 			xml = xml.concat("</playerscore>");
 		}
 		xml = xml.concat(xmlFooter);
+		XmlValidator xmlValidator = new XmlValidator(xml,"MatchPoints.xsd");
+		try {
+			xmlValidator.validateXml();
+		} catch (SAXException | IOException e) {
+			logger.error("Error in XML generation", e);
+		}
 		return xml;
 	}
 
