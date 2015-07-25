@@ -7,7 +7,8 @@ package org.systemexception.randomstuffinazip.exception;
 public enum ErrorCodes {
 
 	NULL_PLAYER_NAME("Null player name"),
-	NEGATIVE_POINTS("Negative points not allowed");
+	NEGATIVE_POINTS("Negative points not allowed"),
+	MISSING_FILENAME("No filename provided");
 
 	private final String errorCode;
 
