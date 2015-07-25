@@ -11,10 +11,11 @@ import java.util.ArrayList;
 public class XmlGameContainer {
 
 	private final String xmlHeader = "<game>", xmlFooter = "</game>";
-	private String player = "<Player>$PLAYER</player>", points = "<points>$POINTS</points>";
-	private ArrayList<ArrayList<String>> playerPoints = new ArrayList<ArrayList<String>>();
+	private final String player = "<Player>$PLAYER</player>";
+	private final String points = "<points>$POINTS</points>";
+	private final ArrayList<ArrayList<String>> playerPoints = new ArrayList<ArrayList<String>>();
 
-	public void addPlayerPoints(Player player) {
+	public void addPlayerPoints(final Player player) {
 		ArrayList<String> playerScore = new ArrayList<String>();
 		playerScore.add(player.getName());
 		playerScore.add(String.valueOf(player.getPoints()));
@@ -24,9 +25,8 @@ public class XmlGameContainer {
 	public String getPlayerPoints() {
 		String xml = xmlHeader;
 		for (ArrayList<String> playerScore: playerPoints) {
-			player = player.replace("$PLAYER", playerScore.get(0));
-			points = points.replace("$POINTS", playerScore.get(1));
-			xml = xml.concat(player).concat(points);
+			xml = xml.concat(player.replace("$PLAYER", playerScore.get(0))).concat(points.replace("$POINTS", String
+					.valueOf(playerScore.get(1))));
 		}
 		xml = xml.concat(xmlFooter);
 		return xml;

@@ -7,10 +7,11 @@ package org.systemexception.randomstuffinazip.model;
 public class Player {
 
 	private final String name;
-	private int points;
+	private final int points;
 
-	public Player(String name) {
+	public Player(final String name, final int points) {
 		this.name = name;
+		this.points = points;
 	}
 
 	public String getName() {
@@ -19,9 +20,5 @@ public class Player {
 
 	public int getPoints() {
 		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
 	}
 }
