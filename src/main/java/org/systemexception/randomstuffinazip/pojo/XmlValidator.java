@@ -34,7 +34,6 @@ public class XmlValidator {
 
 	private File loadXsd() {
 		ClassLoader classLoader = getClass().getClassLoader();
-		File xsdFile = new File(classLoader.getResource(xsdPath).getFile());
-		return xsdFile;
+		return new File(classLoader.getResource(xsdPath).getFile());
 	}
 }
