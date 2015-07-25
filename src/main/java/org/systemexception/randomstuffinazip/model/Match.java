@@ -30,7 +30,7 @@ public class Match {
 	/**
 	 * Adds a player to the match
 	 *
-	 * @param player
+	 * @param player is the player to be added to the match
 	 */
 	public void addPlayer(final Player player) {
 		ArrayList<String> playerScore = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Match {
 	/**
 	 * Generates the match xml and validates against an xsd
 	 *
-	 * @return
+	 * @return the xml string
 	 */
 	public String matchToXml() {
 		String xml = xmlHeader.replace("$MATCH_ID", String.valueOf(getRandomMatchId()));

@@ -29,7 +29,7 @@ public class Player {
 	/**
 	 * Handles any exception
 	 *
-	 * @param exceptionMessage
+	 * @param exceptionMessage the exception message to be thrown
 	 */
 	private void exceptionHandler(String exceptionMessage) {
 		IllegalArgumentException illegalArgumentException = new IllegalArgumentException(exceptionMessage);
