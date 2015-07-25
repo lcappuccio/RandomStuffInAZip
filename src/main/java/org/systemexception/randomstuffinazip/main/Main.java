@@ -15,8 +15,8 @@ public class Main {
 
 		XmlMatchContainer xmlMatchContainer = new XmlMatchContainer();
 
-		xmlMatchContainer.addPlayerPoints(player1);
-		xmlMatchContainer.addPlayerPoints(player2);
+		xmlMatchContainer.addPlayer(player1);
+		xmlMatchContainer.addPlayer(player2);
 
 		System.out.println(xmlMatchContainer.getPlayerPoints());
 	}

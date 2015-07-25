@@ -1,11 +1,23 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="Game">
+    <xs:element name="match">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Player" type="xs:string"/>
-                <xs:element name="Points" type="xs:int"/>
+                <xs:element name="playerscore" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="playername" type="xs:string"/>
+                            <xs:element name="playerpoints">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:integer">
+                                        <xs:minInclusive value="0"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
