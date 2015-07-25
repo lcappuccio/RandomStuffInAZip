@@ -2,7 +2,10 @@ package org.systemexception.randomstuffinazip.model;
 
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
+import org.systemexception.randomstuffinazip.pojo.XmlValidator;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,6 +27,11 @@ public class Match {
 		logger.info("Generated match:" + matchId);
 	}
 
+	/**
+	 * Adds a player to the match
+	 *
+	 * @param player is the player to be added to the match
+	 */
 	public void addPlayer(final Player player) {
 		ArrayList<String> playerScore = new ArrayList<>();
 		playerScore.add(player.getName());
@@ -32,6 +40,11 @@ public class Match {
 		logger.info("Added player " + player.getName() + " to match " + matchId);
 	}
 
+	/**
+	 * Generates the match xml and validates against an xsd
+	 *
+	 * @return the xml string
+	 */
 	public String matchToXml() {
 		String xml = xmlHeader.replace("$MATCH_ID", String.valueOf(getRandomMatchId()));
 		for (ArrayList<String> playerScore : playerPoints) {
@@ -41,6 +54,12 @@ public class Match {
 			xml = xml.concat("</playerscore>");
 		}
 		xml = xml.concat(xmlFooter);
+		XmlValidator xmlValidator = new XmlValidator(xml, "MatchPoints.xsd");
+		try {
+			xmlValidator.validateXml();
+		} catch (SAXException | IOException e) {
+			logger.error("Error in XML generation", e);
+		}
 		return xml;
 	}
 
