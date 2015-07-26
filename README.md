@@ -6,6 +6,7 @@ Random stuff is just a simulation of a match with player and score elements, eve
  to a zip
 
 # MapDB
-The zip files are saved to a in memory database using [MapDB](http://www.mapdb.org) for faster access
+The zip files are saved to a in memory database using [MapDB](http://www.mapdb.org) for faster access and to limit disk
+operations
 
 [![Build Status](https://travis-ci.org/lcappuccio/RandomStuffInAZip.svg?branch=master)](https://travis-ci.org/lcappuccio/RandomStuffInAZip)
