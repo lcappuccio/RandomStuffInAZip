@@ -23,6 +23,12 @@ public class DatabaseProvider {
 		databaseMap = database.hashMap("matchCollection");
 	}
 
+	/**
+	 * Add a record to the database
+	 *
+	 * @param recordName
+	 * @param file
+	 */
 	public void addRecords(String recordName, File file) {
 		logger.info("Added record " + recordName);
 		databaseMap.put(recordName, file);
@@ -30,6 +36,12 @@ public class DatabaseProvider {
 		file.delete();
 	}
 
+	/**
+	 * Fetch a file record from the database
+	 *
+	 * @param recordName
+	 * @return
+	 */
 	public File getRecord(String recordName) {
 		logger.info("Fetched record " + recordName);
 		return databaseMap.get(recordName);
