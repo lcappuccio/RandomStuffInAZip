@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
 public class ZipCompressor {
 
 	private final static Logger logger = LoggerImpl.getFor(ZipCompressor.class);
-	private final String fileName, fileContents;
+	private final String fileName, fileContents, zipFileName;
 
 	public ZipCompressor(final String fileContents, final String fileName) {
 		if (fileName == null) {
@@ -24,7 +24,8 @@ public class ZipCompressor {
 			logger.error(illegalArgumentException.getMessage(), illegalArgumentException);
 			throw illegalArgumentException;
 		}
-		this.fileName = fileName + ".zip";
+		this.fileName = fileName;
+		this.zipFileName = fileName + ".zip";
 		this.fileContents = fileContents;
 	}
 
@@ -34,7 +35,7 @@ public class ZipCompressor {
 	 * @throws IOException
 	 */
 	public void zipContents() throws IOException {
-		FileOutputStream fileOutputStream = new FileOutputStream("target" + File.separator + fileName);
+		FileOutputStream fileOutputStream = new FileOutputStream("target" + File.separator + zipFileName);
 		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 		ZipEntry zipEntry = new ZipEntry(fileName + ".xml");
 		zipOutputStream.putNextEntry(zipEntry);
@@ -48,6 +49,6 @@ public class ZipCompressor {
 		zipOutputStream.closeEntry();
 		inputStream.close();
 		zipOutputStream.close();
-		logger.info("Saved file " + fileName);
+		logger.info("Saved file " + zipFileName);
 	}
 }
