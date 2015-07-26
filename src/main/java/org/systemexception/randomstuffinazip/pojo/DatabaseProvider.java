@@ -19,8 +19,8 @@ public class DatabaseProvider {
 	private final DB database;
 	private HTreeMap<String, File> databaseMap;
 
-	public DatabaseProvider() {
-		database = DBMaker.fileDB(new File("target/database.db")).closeOnJvmShutdown().make();
+	public DatabaseProvider(String fileName) {
+		database = DBMaker.fileDB(new File(fileName)).closeOnJvmShutdown().make();
 		databaseMap = database.hashMap("matchCollection");
 	}
 
@@ -64,9 +64,10 @@ public class DatabaseProvider {
 	/**
 	 * Compact database manually
 	 */
-	public void databaseCompact() {
+	public void closeDatabase() {
 		database.compact();
 		database.commit();
+		database.close();
 		logger.info("Database compacted");
 	}
 

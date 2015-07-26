@@ -19,9 +19,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class DatabaseProviderTest {
 
-	private DatabaseProvider sut = new DatabaseProvider();
+	private DatabaseProvider sut;
 	private File file;
 	private String matchId;
+	private final String databaseFileName = "target/testdb";
 
 	@Before
 	public void setUp() throws IOException {
@@ -38,6 +39,11 @@ public class DatabaseProviderTest {
 		zipCompressor.zipContents();
 		file = new File("target" + File.separator + matchId + ".zip");
 		assertTrue(file.exists());
+		File databaseFile= new File(databaseFileName);
+		if (databaseFile.exists()) {
+			databaseFile.delete();
+		}
+		sut = new DatabaseProvider(databaseFileName);
 	}
 
 	@Test
@@ -45,5 +51,17 @@ public class DatabaseProviderTest {
 		sut.addRecords(matchId, file);
 		File storedRecord = sut.getRecord(matchId);
 		assertEquals(file, storedRecord);
+	}
+
+	@Test
+	public void store_records_in_database() {
+		sut.addRecords(matchId, file);
+		assertTrue(1 == sut.countItems());
+	}
+
+	@Test
+	public void return_all_stored_records_in_database() {
+		sut.addRecords(matchId, file);
+		assertTrue(1 == sut.getAllStoredRecordIds().size());
 	}
 }

@@ -15,14 +15,14 @@ import java.util.Random;
  */
 public class Main {
 
-	private static DatabaseProvider databaseProvider = new DatabaseProvider();
+	private static DatabaseProvider databaseProvider = new DatabaseProvider("target/database.db");
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 1000; i++) {
 			Match match = generateMatch();
 			zipMatch(match);
 		}
-		databaseProvider.databaseCompact();
+		databaseProvider.closeDatabase();
 		databaseProvider.countItems();
 	}
 
