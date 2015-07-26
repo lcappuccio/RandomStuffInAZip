@@ -7,6 +7,7 @@ import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * @author leo
@@ -45,5 +46,37 @@ public class DatabaseProvider {
 	public File getRecord(String recordName) {
 		logger.info("Fetched record " + recordName);
 		return databaseMap.get(recordName);
+	}
+
+	/**
+	 * Get all recordIds stored in dabase
+	 *
+	 * @return
+	 */
+	public ArrayList<String> getAllStoredRecordIds() {
+		ArrayList<String> records = new ArrayList<>();
+		for (String recordId : databaseMap.keySet()) {
+			records.add(recordId);
+		}
+		return records;
+	}
+
+	/**
+	 * Compact database manually
+	 */
+	public void databaseCompact() {
+		database.compact();
+		database.commit();
+		logger.info("Database compacted");
+	}
+
+	/**
+	 * Count all items on database
+	 *
+	 * @return
+	 */
+	public int countItems() {
+		logger.info("Database item count: " + databaseMap.size());
+		return databaseMap.size();
 	}
 }
