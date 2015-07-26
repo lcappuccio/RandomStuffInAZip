@@ -18,11 +18,12 @@ public class Main {
 	private static DatabaseProvider databaseProvider = new DatabaseProvider();
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 3000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			Match match = generateMatch();
 			zipMatch(match);
 		}
-
+		databaseProvider.databaseCompact();
+		databaseProvider.countItems();
 	}
 
 	private static Match generateMatch() {
