@@ -19,7 +19,7 @@ public class DatabaseProvider {
 	private HTreeMap<String, File> databaseMap;
 
 	public DatabaseProvider() {
-		database = DBMaker.fileDB(new File("database.db")).closeOnJvmShutdown().make();
+		database = DBMaker.fileDB(new File("target/database.db")).closeOnJvmShutdown().make();
 		databaseMap = database.hashMap("matchCollection");
 	}
 
