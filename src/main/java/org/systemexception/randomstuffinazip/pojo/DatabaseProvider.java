@@ -2,11 +2,11 @@ package org.systemexception.randomstuffinazip.pojo;
 
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
+import org.mapdb.HTreeMap;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
-import java.util.concurrent.ConcurrentNavigableMap;
 
 /**
  * @author leo
@@ -16,17 +16,18 @@ public class DatabaseProvider {
 
 	private final static Logger logger = LoggerImpl.getFor(DatabaseProvider.class);
 	private final DB database;
-	private ConcurrentNavigableMap<String,File> databaseMap;
+	private HTreeMap<String, File> databaseMap;
 
 	public DatabaseProvider() {
-		database = DBMaker.memoryDB().make();
-		databaseMap = database.treeMap("matchCollection");
+		database = DBMaker.fileDB(new File("database.db")).closeOnJvmShutdown().make();
+		databaseMap = database.hashMap("matchCollection");
 	}
 
 	public void addRecords(String recordName, File file) {
 		logger.info("Added record " + recordName);
 		databaseMap.put(recordName, file);
 		database.commit();
+		file.delete();
 	}
 
 	public File getRecord(String recordName) {
