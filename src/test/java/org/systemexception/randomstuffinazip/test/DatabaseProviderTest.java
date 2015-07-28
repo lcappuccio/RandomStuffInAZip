@@ -9,8 +9,11 @@ import org.systemexception.randomstuffinazip.pojo.ZipCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -19,9 +22,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class DatabaseProviderTest {
 
-	private DatabaseProvider sut = new DatabaseProvider();
-	private File file;
+	private DatabaseProvider sut;
+	private File zipFile, matchFile;
 	private String matchId;
+	private byte[] zipFileBytes;
+	private final String databaseFileName = "target/testdb.db";
+	private final String outputPath = "target";
 
 	@Before
 	public void setUp() throws IOException {
@@ -32,18 +38,39 @@ public class DatabaseProviderTest {
 		match.addPlayer(player1);
 		match.addPlayer(player2);
 		match.addPlayer(player3);
-		String xmlMatch = match.matchToXml();
+		match.saveMatchToFile(outputPath);
 		matchId = String.valueOf(match.getMatchId());
-		ZipCompressor zipCompressor = new ZipCompressor(xmlMatch, matchId);
-		zipCompressor.zipContents();
-		file = new File("target" + File.separator + matchId + ".zip");
-		assertTrue(file.exists());
+		ZipCompressor zipCompressor = new ZipCompressor(outputPath + File.separator + matchId);
+		matchFile = new File(outputPath + File.separator + matchId + ".xml");
+		zipCompressor.addFileToZip(matchFile);
+		zipFile = new File(outputPath + File.separator + matchId + ".zip");
+		zipFileBytes = Files.readAllBytes(Paths.get(zipFile.getAbsolutePath()));
+		assertTrue(zipFile.exists());
+		File databaseFile= new File(databaseFileName);
+		if (databaseFile.exists()) {
+			databaseFile.delete();
+		}
+		sut = new DatabaseProvider(databaseFileName);
 	}
 
 	@Test
-	public void store_file_in_database() {
-		sut.addRecords(matchId, file);
-		File storedRecord = sut.getRecord(matchId);
-		assertEquals(file, storedRecord);
+	public void store_file_in_database() throws IOException {
+		Path filePath = Paths.get(zipFile.getAbsolutePath());
+		byte[] fileData = Files.readAllBytes(filePath);
+		sut.addRecords(matchId, zipFileBytes, zipFile);
+		byte[] storedRecord = sut.getRecord(matchId);
+		assertTrue(Arrays.equals(fileData,storedRecord));
+	}
+
+	@Test
+	public void store_records_in_database() {
+		sut.addRecords(matchId, zipFileBytes, zipFile);
+		assertTrue(1 == sut.countItems());
+	}
+
+	@Test
+	public void return_all_stored_records_in_database() {
+		sut.addRecords(matchId, zipFileBytes, zipFile);
+		assertTrue(1 == sut.getAllStoredRecordIds().size());
 	}
 }

@@ -9,4 +9,3 @@ id and is saved to a zip.
 
 ## MapDB
 The zip files are saved to a [MapDB](http://www.mapdb.org) database.
-

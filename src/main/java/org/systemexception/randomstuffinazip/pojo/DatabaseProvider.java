@@ -17,22 +17,23 @@ public class DatabaseProvider {
 
 	private final static Logger logger = LoggerImpl.getFor(DatabaseProvider.class);
 	private final DB database;
-	private HTreeMap<String, File> databaseMap;
+	private HTreeMap<String, byte[]> databaseMap;
 
-	public DatabaseProvider() {
-		database = DBMaker.fileDB(new File("target/database.db")).closeOnJvmShutdown().make();
+	public DatabaseProvider(String fileName) {
+		database = DBMaker.fileDB(new File(fileName)).closeOnJvmShutdown().make();
 		databaseMap = database.hashMap("matchCollection");
 	}
 
 	/**
 	 * Add a record to the database
 	 *
-	 * @param recordName
-	 * @param file
+	 * @param recordName the record name/id
+	 * @param fileData the byte[] with all file data
+	 * @param file the original file, to be deleted
 	 */
-	public void addRecords(String recordName, File file) {
+	public void addRecords(String recordName, byte[] fileData, File file) {
+		databaseMap.put(recordName, fileData);
 		logger.info("Added record " + recordName);
-		databaseMap.put(recordName, file);
 		database.commit();
 		file.delete();
 	}
@@ -40,10 +41,10 @@ public class DatabaseProvider {
 	/**
 	 * Fetch a file record from the database
 	 *
-	 * @param recordName
-	 * @return
+	 * @param recordName is the record name/id
+	 * @return the byte array of this content
 	 */
-	public File getRecord(String recordName) {
+	public byte[] getRecord(String recordName) {
 		logger.info("Fetched record " + recordName);
 		return databaseMap.get(recordName);
 	}
@@ -51,7 +52,7 @@ public class DatabaseProvider {
 	/**
 	 * Get all recordIds stored in dabase
 	 *
-	 * @return
+	 * @return lists all record ids
 	 */
 	public ArrayList<String> getAllStoredRecordIds() {
 		ArrayList<String> records = new ArrayList<>();
@@ -64,16 +65,17 @@ public class DatabaseProvider {
 	/**
 	 * Compact database manually
 	 */
-	public void databaseCompact() {
-		database.compact();
+	public void closeDatabase() {
 		database.commit();
+		database.compact();
+		database.close();
 		logger.info("Database compacted");
 	}
 
 	/**
 	 * Count all items on database
 	 *
-	 * @return
+	 * @return returns the total items count
 	 */
 	public int countItems() {
 		logger.info("Database item count: " + databaseMap.size());
