@@ -1,10 +1,12 @@
 package org.systemexception.randomstuffinazip.model;
 
+import org.apache.commons.io.FileUtils;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 import org.systemexception.randomstuffinazip.pojo.XmlValidator;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,6 +40,10 @@ public class Match {
 		playerScore.add(String.valueOf(player.getPoints()));
 		playerPoints.add(playerScore);
 		logger.info("Added player " + player.getName() + " to match " + matchId);
+	}
+
+	public void saveMatchToFile(final String outputPath) throws IOException {
+		FileUtils.writeStringToFile(new File(outputPath + File.separator + matchId + ".xml"), matchToXml());
 	}
 
 	/**

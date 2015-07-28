@@ -15,18 +15,16 @@ import java.util.zip.ZipOutputStream;
 public class ZipCompressor {
 
 	private final static Logger logger = LoggerImpl.getFor(ZipCompressor.class);
-	private final String fileName, fileContents, zipFileName;
+	private final String zipFileName;
 
-	public ZipCompressor(final String fileContents, final String fileName) {
-		if (fileName == null) {
+	public ZipCompressor(final String zipFileName) {
+		if (zipFileName == null) {
 			IllegalArgumentException illegalArgumentException = new IllegalArgumentException(ErrorCodes
 					.MISSING_FILENAME.toString());
 			logger.error(illegalArgumentException.getMessage(), illegalArgumentException);
 			throw illegalArgumentException;
 		}
-		this.fileName = fileName;
-		this.zipFileName = fileName + ".zip";
-		this.fileContents = fileContents;
+		this.zipFileName = zipFileName + ".zip";
 	}
 
 	/**
@@ -34,21 +32,21 @@ public class ZipCompressor {
 	 *
 	 * @throws IOException
 	 */
-	public void zipContents() throws IOException {
-		FileOutputStream fileOutputStream = new FileOutputStream("target" + File.separator + zipFileName);
-		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
-		ZipEntry zipEntry = new ZipEntry(fileName + ".xml");
-		zipOutputStream.putNextEntry(zipEntry);
-		InputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
-		byte[] data = new byte[1024];
-		int byteCount;
-		while ((byteCount = (inputStream.read(data))) > 0) {
-			zipOutputStream.write(data, 0, byteCount);
+	public void addFileToZip(final File fileToZip) throws IOException {
+		byte[] buffer = new byte[1024];
+		FileOutputStream fos = new FileOutputStream(zipFileName);
+		ZipOutputStream zipOutput = new ZipOutputStream(fos);
+		ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+		zipOutput.putNextEntry(zipEntry);
+		try (FileInputStream in = new FileInputStream(fileToZip)) {
+			int len;
+			while ((len = in.read(buffer)) > 0) {
+				zipOutput.write(buffer, 0, len);
+			}
 		}
-		zipOutputStream.flush();
-		zipOutputStream.closeEntry();
-		inputStream.close();
-		zipOutputStream.close();
+		zipOutput.closeEntry();
+		zipOutput.close();
+		fileToZip.delete();
 		logger.info("Saved file " + zipFileName);
 	}
 }
