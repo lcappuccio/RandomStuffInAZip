@@ -7,6 +7,7 @@ import org.systemexception.randomstuffinazip.pojo.ZipCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Random;
 
 /**
@@ -17,13 +18,14 @@ public class Main {
 
 	private static DatabaseProvider databaseProvider = new DatabaseProvider("target/database.db");
 
-	public static void main(String[] args) {
-		for (int i = 0; i < 1000; i++) {
+	public static void main(String[] args) throws IOException {
+		for (int i = 0; i < 10; i++) {
 			Match match = generateMatch();
+			match.saveMatchToFile("target");
 			zipMatch(match);
 		}
-		databaseProvider.closeDatabase();
 		databaseProvider.countItems();
+		databaseProvider.closeDatabase();
 	}
 
 	private static Match generateMatch() {
@@ -37,17 +39,20 @@ public class Main {
 	}
 
 	private static void zipMatch(Match match) {
-		ZipCompressor zipCompressor = new ZipCompressor(match.matchToXml(), String.valueOf(match.getMatchId()));
+		ZipCompressor zipCompressor = new ZipCompressor("target" + File.separator + String.valueOf(match.getMatchId()));
 		try {
-			zipCompressor.zipContents();
-			storeRecord(new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".zip"), String
-					.valueOf(match.getMatchId()));
+			File matchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".xml");
+			byte[] fileData = Files.readAllBytes(matchFile.toPath());
+			zipCompressor.addFileToZip(matchFile);
+			File zipMatchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".zip");
+			byte[] zipFileData = Files.readAllBytes(zipMatchFile.toPath());
+			storeRecord(String.valueOf(match.getMatchId()), zipFileData, zipMatchFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void storeRecord(File matchFile, String matchId) {
-		databaseProvider.addRecords(matchId, matchFile);
+	private static void storeRecord(String matchId, byte[] matchFileData, File matchFile) {
+		databaseProvider.addRecords(matchId, matchFileData, matchFile);
 	}
 }
