@@ -39,11 +39,11 @@ public class Main {
 	}
 
 	private static void zipMatch(Match match) {
-		ZipCompressor zipCompressor = new ZipCompressor(String.valueOf(match.getMatchId()));
+		ZipCompressor zipCompressor = new ZipCompressor("target" + File.separator + String.valueOf(match.getMatchId()));
 		try {
-			File matchFile = new File(String.valueOf(match.getMatchId()) + ".xml");
-			zipCompressor.addFileToZip(matchFile);
+			File matchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".xml");
 			byte[] fileData = Files.readAllBytes(matchFile.toPath());
+			zipCompressor.addFileToZip(matchFile);
 			storeRecord(String.valueOf(match.getMatchId()), fileData, matchFile);
 		} catch (IOException e) {
 			e.printStackTrace();
