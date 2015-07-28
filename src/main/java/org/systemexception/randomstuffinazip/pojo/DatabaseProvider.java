@@ -66,8 +66,8 @@ public class DatabaseProvider {
 	 * Compact database manually
 	 */
 	public void closeDatabase() {
-		database.compact();
 		database.commit();
+		database.compact();
 		database.close();
 		logger.info("Database compacted");
 	}
