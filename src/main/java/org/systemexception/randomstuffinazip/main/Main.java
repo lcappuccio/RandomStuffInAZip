@@ -44,7 +44,9 @@ public class Main {
 			File matchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".xml");
 			byte[] fileData = Files.readAllBytes(matchFile.toPath());
 			zipCompressor.addFileToZip(matchFile);
-			storeRecord(String.valueOf(match.getMatchId()), fileData, matchFile);
+			File zipMatchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".zip");
+			byte[] zipFileData = Files.readAllBytes(zipMatchFile.toPath());
+			storeRecord(String.valueOf(match.getMatchId()), zipFileData, zipMatchFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
