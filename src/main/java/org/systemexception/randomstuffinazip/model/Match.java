@@ -21,6 +21,7 @@ public class Match {
 	private final String xmlHeader = "<match><match_id>$MATCH_ID</match_id>", xmlFooter = "</match>";
 	private final String player = "<playername>$PLAYER</playername>";
 	private final String points = "<playerpoints>$POINTS</playerpoints>";
+	private final String xsdFilePath = "xsd" + File.separator + "MatchPoints.xsd";
 	private final ArrayList<ArrayList<String>> playerPoints = new ArrayList<>();
 	private final int matchId;
 
@@ -60,7 +61,7 @@ public class Match {
 			xml = xml.concat("</playerscore>");
 		}
 		xml = xml.concat(xmlFooter);
-		XmlValidator xmlValidator = new XmlValidator(xml, "MatchPoints.xsd");
+		XmlValidator xmlValidator = new XmlValidator(xml, xsdFilePath);
 		try {
 			xmlValidator.validateXml();
 		} catch (SAXException | IOException e) {

@@ -2,11 +2,12 @@ package org.systemexception.randomstuffinazip.test;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.randomstuffinazip.model.Player;
 import org.systemexception.randomstuffinazip.model.Match;
+import org.systemexception.randomstuffinazip.model.Player;
 import org.systemexception.randomstuffinazip.pojo.XmlValidator;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -19,6 +20,7 @@ public class XmlValidatorTest {
 	private static Player player1, player2;
 	private static final Match MATCH = new Match();
 	private static String xmlMatchString;
+	private final String xsdFilePath = "xsd" + File.separator + "MatchPoints.xsd";
 
 	@BeforeClass
 	public static void setUp() {
@@ -31,13 +33,13 @@ public class XmlValidatorTest {
 
 	@Test
 	public void validate_correctly() throws IOException, SAXException {
-		sut = new XmlValidator(xmlMatchString, "MatchPoints.xsd");
+		sut = new XmlValidator(xmlMatchString, xsdFilePath);
 		sut.validateXml();
 	}
 
 	@Test(expected = SAXException.class)
 	public void throw_exception_on_invalid_xml() throws IOException, SAXException {
-		sut = new XmlValidator("<abc></abc>", "MatchPoints.xsd");
+		sut = new XmlValidator("<abc></abc>", xsdFilePath);
 		sut.validateXml();
 	}
 }
