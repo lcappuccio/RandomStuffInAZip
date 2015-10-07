@@ -1,7 +1,13 @@
 # RandomStuffInAZip
 Generates random stuff in a XML validated against an XSD, saves to a zip file and sends to a MapDB.
 
-[![Build Status](https://travis-ci.org/lcappuccio/RandomStuffInAZip.svg?branch=master)](https://travis-ci.org/lcappuccio/RandomStuffInAZip)
+**Master**
+
+[![Build Status](https://travis-ci.org/lcappuccio/mapdb-test.svg?branch=master)](https://travis-ci.org/lcappuccio/mapdb-test)
+
+**Develop**
+
+[![Build Status](https://travis-ci.org/lcappuccio/mapdb-test.svg?branch=develop)](https://travis-ci.org/lcappuccio/mapdb-test)
 
 ## Random Stuff
 Random stuff is just a simulation of a match with player and score elements stored in XML, every match has its' own
