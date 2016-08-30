@@ -43,7 +43,6 @@ public class Main {
 		ZipCompressor zipCompressor = new ZipCompressor(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()));
 		try {
 			File matchFile = new File(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()) + ".xml");
-			byte[] fileData = Files.readAllBytes(matchFile.toPath());
 			zipCompressor.addFileToZip(matchFile);
 			File zipMatchFile = new File(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()) + ".zip");
 			byte[] zipFileData = Files.readAllBytes(zipMatchFile.toPath());
