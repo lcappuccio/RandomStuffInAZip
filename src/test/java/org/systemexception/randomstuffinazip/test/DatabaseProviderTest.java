@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
+import static org.systemexception.randomstuffinazip.main.Main.OUTPUT_PATH;
 
 /**
  * @author leo
@@ -27,7 +28,6 @@ public class DatabaseProviderTest {
 	private String matchId;
 	private byte[] zipFileBytes;
 	private final String databaseFileName = "target/testdb.db";
-	private final String outputPath = "target";
 
 	@Before
 	public void setUp() throws IOException {
@@ -38,12 +38,12 @@ public class DatabaseProviderTest {
 		match.addPlayer(player1);
 		match.addPlayer(player2);
 		match.addPlayer(player3);
-		match.saveMatchToFile(outputPath);
+		match.saveMatchToFile(OUTPUT_PATH);
 		matchId = String.valueOf(match.getMatchId());
-		ZipCompressor zipCompressor = new ZipCompressor(outputPath + File.separator + matchId);
-		matchFile = new File(outputPath + File.separator + matchId + ".xml");
+		ZipCompressor zipCompressor = new ZipCompressor(OUTPUT_PATH + File.separator + matchId);
+		matchFile = new File(OUTPUT_PATH + File.separator + matchId + ".xml");
 		zipCompressor.addFileToZip(matchFile);
-		zipFile = new File(outputPath + File.separator + matchId + ".zip");
+		zipFile = new File(OUTPUT_PATH + File.separator + matchId + ".zip");
 		zipFileBytes = Files.readAllBytes(Paths.get(zipFile.getAbsolutePath()));
 		assertTrue(zipFile.exists());
 		File databaseFile= new File(databaseFileName);

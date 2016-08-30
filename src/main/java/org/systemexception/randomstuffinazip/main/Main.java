@@ -17,11 +17,12 @@ import java.util.Random;
 public class Main {
 
 	private static DatabaseProvider databaseProvider = new DatabaseProvider("target/database.db");
+	public static final String OUTPUT_PATH = "target";
 
 	public static void main(String[] args) throws IOException {
 		for (int i = 0; i < 10; i++) {
 			Match match = generateMatch();
-			match.saveMatchToFile("target");
+			match.saveMatchToFile(OUTPUT_PATH);
 			zipMatch(match);
 		}
 		databaseProvider.countItems();
@@ -39,12 +40,12 @@ public class Main {
 	}
 
 	private static void zipMatch(Match match) {
-		ZipCompressor zipCompressor = new ZipCompressor("target" + File.separator + String.valueOf(match.getMatchId()));
+		ZipCompressor zipCompressor = new ZipCompressor(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()));
 		try {
-			File matchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".xml");
+			File matchFile = new File(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()) + ".xml");
 			byte[] fileData = Files.readAllBytes(matchFile.toPath());
 			zipCompressor.addFileToZip(matchFile);
-			File zipMatchFile = new File("target" + File.separator + String.valueOf(match.getMatchId()) + ".zip");
+			File zipMatchFile = new File(OUTPUT_PATH + File.separator + String.valueOf(match.getMatchId()) + ".zip");
 			byte[] zipFileData = Files.readAllBytes(zipMatchFile.toPath());
 			storeRecord(String.valueOf(match.getMatchId()), zipFileData, zipMatchFile);
 		} catch (IOException e) {
