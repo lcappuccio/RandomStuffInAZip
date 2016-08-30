@@ -3,11 +3,13 @@ package org.systemexception.randomstuffinazip.pojo;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.HTreeMap;
+import org.mapdb.Serializer;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author leo
@@ -21,7 +23,8 @@ public class DatabaseProvider {
 
 	public DatabaseProvider(String fileName) {
 		database = DBMaker.fileDB(new File(fileName)).closeOnJvmShutdown().make();
-		databaseMap = database.hashMap("matchCollection");
+		databaseMap = database.hashMap("matchCollection").keySerializer(Serializer.STRING)
+				.valueSerializer(Serializer.JAVA).createOrOpen();;
 	}
 
 	/**
@@ -56,8 +59,9 @@ public class DatabaseProvider {
 	 */
 	public ArrayList<String> getAllStoredRecordIds() {
 		ArrayList<String> records = new ArrayList<>();
-		for (String recordId : databaseMap.keySet()) {
-			records.add(recordId);
+		Iterator iterator = databaseMap.keySet().iterator();
+		while (iterator.hasNext()){
+			records.add(iterator.next().toString());
 		}
 		return records;
 	}
@@ -67,7 +71,6 @@ public class DatabaseProvider {
 	 */
 	public void closeDatabase() {
 		database.commit();
-		database.compact();
 		database.close();
 		logger.info("Database compacted");
 	}
