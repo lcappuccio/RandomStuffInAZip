@@ -19,12 +19,12 @@ public class DatabaseProvider {
 
 	private final static Logger logger = LoggerImpl.getFor(DatabaseProvider.class);
 	private final DB database;
-	private HTreeMap<String, byte[]> databaseMap;
+	private final HTreeMap<String, byte[]> databaseMap;
 
 	public DatabaseProvider(String fileName) {
 		database = DBMaker.fileDB(new File(fileName)).closeOnJvmShutdown().make();
 		databaseMap = database.hashMap("matchCollection").keySerializer(Serializer.STRING)
-				.valueSerializer(Serializer.JAVA).createOrOpen();;
+				.valueSerializer(Serializer.JAVA).createOrOpen();
 	}
 
 	/**

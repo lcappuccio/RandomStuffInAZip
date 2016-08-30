@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class Main {
 
-	private static DatabaseProvider databaseProvider = new DatabaseProvider("target/database.db");
+	private static final DatabaseProvider databaseProvider = new DatabaseProvider("target/database.db");
 	public static final String OUTPUT_PATH = "target";
 
 	public static void main(String[] args) throws IOException {
